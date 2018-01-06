@@ -33,12 +33,12 @@ function outputJSON($param, $jsonFile) {
 function humanOutout ($jsonFile) {
 	$data = json_decode(file_get_contents($jsonFile), true);
 
-	if(count($data)<1){
+	if(count($data['bills'])<1){
 		throw new Exception("Not a valid file");
 	}
 
     $output = "Number of bills: " . count($data) . "\n\n";
-    foreach($data as $k => $bill) {
+    foreach($data['bills'] as $k => $bill) {
         $output .= "Bill #" . $k . ":\n";
         $output .= "    User: " . $bill['user_id'] . "\n";
         $output .= "    Price: " . $bill['price'] . "\n";

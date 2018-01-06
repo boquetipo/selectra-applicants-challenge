@@ -24,15 +24,10 @@ if(!is_array($json['users']) || count($json['users'])<1){
 }
 
 //fill temporary array to fast access price_per_kwh
-foreach ($json['providers'] as $provider) {
-	$providers[$provider['id']] = $provider['price_per_kwh'];
-}
-
+$providers = array_column($json['providers'], 'price_per_kwh', 'id');
 
 //fill temporary array to fast access yearly_consumption
-foreach ($json['users'] as $user) {
-	$users[$user['id']] = $user['yearly_consumption'],
-}
+$users = array_column($json['users'], 'yearly_consumption', 'id');
 
 //calculate bills
 foreach ($json['contracts'] as $k => $contract) {
@@ -80,7 +75,7 @@ if(count($bills)>0){
 	    $bills[$k]['commission'] = $commission;
 	}
 
-	$output = json_encode($bills);
+	$output = json_encode(["bills" => $bills]);
 	file_put_contents("./output.json", $output);
 }
 
